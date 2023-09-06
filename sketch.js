@@ -12,7 +12,7 @@ function preload(){
     alien_1 = loadImage("ressources/Alien1.png");
     offspring_0 = loadImage("ressources/offspring0.png")
     offspring_1 = loadImage("ressources/offspring1.png")
-    offspring_2 = loadImage("ressorces/offspring2.png")
+    offspring_2 = loadImage("ressources/offspring2.png")
 
    
 }
@@ -35,10 +35,9 @@ function setup() {
         
             
     }
-    
 
    // alien = new Alien(width/2-10,20)
-  
+
 
 
 	
@@ -140,33 +139,22 @@ class Alien{
 
 }
 class Offspring extends Alien{
-        offspring = new Offspring
-        
-        draw(){
-            if (this.Offspring) {
-                if (this.OffspringStage == 0){
-                    image(offspring0,this.x,this.y,50,50);         
-                }
-                else if {
-                    image(offspring1,this.x,this.y,45,45);
-                     
-                }      
-                else {
-                    image(offspring2, this.x, this.y,40,40);
-                }     
-                // this.changeStage++  
-                if (this.changeStage==0){
-                    this.OffspringStage++;
-                    if (this.OffspringStage > 1)
-                        this.OffspringStage = 0
-               }
-                this.changeStage++
-                if (this.changeStage >5)
-                    this.changeStage = 0
-    
+    offspring = new Offspring
+    draw(){
+        if (this.Offspring){
+            if (this.OffspringStage == 0){
+                image (offspring_0,this.x,this.y,50,50);
             }
-
-}
+            else {
+                image (offspring_1,this.x,this.y,40,40);
+            }
+            if (this.changeStage == 0){
+                this.OffspringStage++;
+                if(this.OffspringStage > 1)
+                this.changeStage = 0
+            }
+        }
+    }
 }
 
 function keyPressed() {

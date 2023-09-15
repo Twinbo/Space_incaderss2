@@ -108,6 +108,8 @@ class Alien{
 
     draw(){
         if (this.alive) {
+            console.log("alienStage:", this.alienStage);
+            console.log("changeStage:", this.changeStage);
             if (this.alienStage == 0){
                 image(alien_0,this.x,this.y,60,60);         
             }
@@ -130,6 +132,9 @@ class Alien{
    
     }
     update(){
+        if(this,this.alive) {
+            this.y +=0.2
+        }
         if (this.locationStage == 16 ) {
             this.y+=3
             this.dx = -this.dx
@@ -152,25 +157,54 @@ class Alien{
 
 
 }
-class Offspring extends Alien{
-    constructor(x,y){
-        super(x,y); //kalder på constructoren fra classen Alien
-        this.offspring = true;
-        this,this.offspringStage = 0;
-    }
-    draw(){
-        if (this.alive && this.offspring){
-            if (this.offspringStage == 0){
-                image (offspring_0,this.x,this.y,50,50);
+
+    class Offspring extends Alien {
+        constructor(x, y) {
+            super(x, y);//kalder på constructoren fra classen Alien
+            this.offspring = true;
+            this.offspringStage = 0;
+            this.changeStage = 0;
+            this.imageChangeDelay = 25;
+        }
+    
+        draw() {
+            if (this.alive && this.offspring) {
+                console.log("offspringStage:", this.offspringStage);
+                console.log("changeStage:", this.changeStage);
+                if (this.changeStage < this.imageChangeDelay) {
+                    if (this.offspringStage == 0) {
+                        image(offspring_0, this.x, this.y, 70, 90);
+                    } else if (this.offspringStage == 1) {
+                        image(offspring_1, this.x, this.y, 60, 90);
+                    } else {
+                        image(offspring_2, this.x, this.y, 50, 90);
+                    }
+                    this.changeStage++;
+                } else {
+                    this.offspringStage++;
+                    if (this.offspringStage > 2) {
+                        this.offspringStage = 0;
+                    }
+                    this.changeStage = 0; // Reset changeStage
+                }
             }
-            else {
-                image (offspring_1,this.x,this.y,40,40);
-            }
-            if (this.changeStage == 0){
-                this.alienStage++;
-                if(this.alienStage > 1)
-                this.alienStage = 0;
-            }
+        }
+    
+    update() {
+        if (this.alive) {
+            this.y += 0.2;
+        }
+        if (this.locationStage == 16) {
+            this.y += 3;
+            this.dx = -this.dx;
+            this.locationStage++;
+        } else if (this.locationStage == 48) {
+            this.y += 3;
+            this.dx = -this.dx;
+            this.locationStage = -15;
+        } else {
+            this.x += this.dx;
+            this.locationStage++;
         }
     }
 }
@@ -281,6 +315,17 @@ class Bullet{
         }
     }
 
-
+    hasHit(offspring){
+        for (let i=0;i<offspring.length;i++){
+            if (offspring[i].alive && this.hasNotHit){
+                if (this.x > (offspring[i].x)-3 && this.x < (offspring[i].x)+27
+                    && this.y > (offspring[i].y)-3 && this.y < (offspring[i].y)+27){
+                   // print("true")
+                    offspring[i].offspring = false;
+                    this.hasNotHit = false;
+                }
+            }
+        }
+    }
 
 }

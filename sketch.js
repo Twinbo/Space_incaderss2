@@ -2,7 +2,8 @@ let bullets = []
 let bulletnr = 0
 let aliensLine1 = []
 let aliensLine2 = []
-
+let offspringLine1 = []
+let offspringLine2 = []
 
 function preload(){
     ship_0 = loadImage("ressources/Ship0.png");
@@ -34,6 +35,11 @@ function setup() {
 
         
             
+    }
+
+    for (let i=0; i<5; i++){
+        offspringLine1[i]=new Offspring(90+70*i,130)
+        offspringLine2[i]=new Offspring(60+50*i,70)
     }
 
    // alien = new Alien(width/2-10,20)
@@ -75,6 +81,16 @@ function draw()
     //print(aliensLine1[2])
     if (aliensLine1[0].y > height) 
         noLoop()
+
+    for (let i=0;i<5;i++){
+        offspringLine1[i].draw()
+        offspringLine1[i].update()
+        offspringLine2[i].draw()
+        offspringLine2[i].update()
+    }
+
+    if (offspringLine1[0].y > height)
+        noloop()
 }
 
 class Alien{
@@ -133,25 +149,27 @@ class Alien{
 
     }
 
-    
-
 
 
 }
 class Offspring extends Alien{
-    offspring = new Offspring
+    constructor(x,y){
+        super(x,y); //kalder på constructoren fra classen Alien
+        this.offspring = true;
+        this,this.offspringStage = 0;
+    }
     draw(){
-        if (this.Offspring){
-            if (this.OffspringStage == 0){
+        if (this.alive && this.offspring){
+            if (this.offspringStage == 0){
                 image (offspring_0,this.x,this.y,50,50);
             }
             else {
                 image (offspring_1,this.x,this.y,40,40);
             }
             if (this.changeStage == 0){
-                this.OffspringStage++;
-                if(this.OffspringStage > 1)
-                this.changeStage = 0
+                this.alienStage++;
+                if(this.alienStage > 1)
+                this.alienStage = 0;
             }
         }
     }
@@ -223,7 +241,7 @@ class Ship{
 
     }
     fire(){
-        bullets[bulletnr]= new Bullet(this.x+22,this.y)
+        bullets[bulletnr]= new Bullet(this.x+32,this.y)
         bulletnr++;
       //  print(bulletnr)
       //  print(bullets)
@@ -241,7 +259,7 @@ class Bullet{
     draw(){
         if(this.hasNotHit){
             fill(255,0,0)
-            circle(this.x,this.y,7)
+            circle(this.x,this.y,7.5)
         }
     }
 
@@ -266,12 +284,3 @@ class Bullet{
 
 
 }
-
-
-
-
-
-
-
-
-

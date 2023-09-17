@@ -10,6 +10,7 @@ Jeg syntes den kode der står nedunder er svær at gennemskue, hvad der foregår
 Efter for loopen, så kommer der en if statement, som der tjekker om at alien er alive ved at gå igennem dens arrey, hvor den derefter tjekker om den er blevet ramt.
 I det andet if statement tjekker den også 2 forskellige parametrer fra både x og y koordinatterne, f.eks. starten den med at tjekke den om x postitionen for bulletsne er størrer end aliens x position og minuser den værdig med 3 og efter tjekker den det samme, bare hvor den tjekker om x positionen et mindre end aliens x coordinat plus 27. Dette gør if statementet så også for y på den samme møde.
 Det vil sige hvis alle disse parametrer bliver mødt, så bliver aliens[i].alive sat til at være false, som indikere at den er blevet ramt er og død og det samme sker for this.hasNotHit bliver også lig med false, fordi så er alien blevet ramt. 
+
   hasHit(aliens){
         for (let i=0;i<aliens.length;i++){
             if (aliens[i].alive && this.hasNotHit){
@@ -23,7 +24,7 @@ Det vil sige hvis alle disse parametrer bliver mødt, så bliver aliens[i].alive
         }
     }
 
-Jeg ved ikke lige, hvordan jeg skal lave en tabel med i forhodl til test af programmet, så har bare lagt et link in til billedet, lægger også selve diagramet i pdf'en.
+Jeg ved ikke lige, hvordan jeg skal lave en tabel med i forhold til test af programmet, så har bare lagt et link in til billedet, lægger også selve diagramet i pdf'en.
 Når man tester et program, så kan man aldrgi bedømme om det virker eller ej, for der kan altid være fejl som der gemmer sig.
 Dog hovedfunktioner i programmet virker til at fungere nogen lunde, f.eks. kan jeg bevæge space sipet og skyde, hvor jeg dog kun kan dræbe halvdelen af alle aliens, hvor den anden halvdels hitboks ikke funkgere.
 På grund af at ikke alt som der blevet forvenetet var det der skete, så vil det betyde at spillet ikke bestod testen.

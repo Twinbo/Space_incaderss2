@@ -4,7 +4,11 @@ let aliensLine1 = []
 let aliensLine2 = []
 let offspringLine1 = []
 let offspringLine2 = []
+let ship
+let ship_0, ship_1, ship_2
 
+
+// Her er der blevet lavet en function som preloader billederene, så billederene kan blive kaldt på senere hen
 function preload(){
     ship_0 = loadImage("ressources/Ship0.png");
     ship_1 = loadImage("ressources/Ship1.png");
@@ -18,9 +22,7 @@ function preload(){
    
 }
 
-let ship
-let ship_0, ship_1, ship_2
-
+// I function setup bliver parametrene for selve canvas, background, ship localitation og alliensLines og offspringLines.
 function setup() {
     
     createCanvas(500, 500);
@@ -28,11 +30,11 @@ function setup() {
     ship = new Ship(width/2-25,height-100);
    
     ship.draw();
-
+// Her er der et forloop, som sætter parametrende for de 2 linjer aliens i forhold til, hvor mange der bliver tegnet.
     for (let i=0; i<5; i++){
         aliensLine1[i]=new Alien(90+70*i,130)
         aliensLine2[i]=new Alien(60+50*i,70)
-
+        // alien = new Alien(width/2-10,20)
         
             
     }
@@ -42,13 +44,13 @@ function setup() {
         offspringLine2[i]=new Offspring(60+50*i,70)
     }
 
-   // alien = new Alien(width/2-10,20)
+   
 
 
 
 	
 }
-
+// Her bliver alt tegnet, hvor alle tingene bliver kaldt på fra deres forskellige classer.
 function draw()
 {
     background(0)
@@ -67,6 +69,7 @@ function draw()
      //  bullets[i].hasHit(aliensLine2);
 
     }
+    // Her bliver aliensLinesne tegnet og update hele tiden i for loopen, så de bliver tegnet hver gang de bevæger sig.
     for (let i=0;i<5;i++){
         aliensLine1[i].draw()
         aliensLine1[i].update()
@@ -92,8 +95,9 @@ function draw()
     if (offspringLine1[0].y > height)
         noloop()
 }
-
+// I calssen her, blvier alle parameterne for aliens lavet, i forhold til hvordan de bliver tegnet osv.
 class Alien{
+    // Her bliver start værdierne lavet for alle aliens
     constructor(x,y){
         this.x = x
         this.y = y
@@ -105,7 +109,7 @@ class Alien{
         this.dx = 3
        
     }
-
+// koden under sætter parametrende for, hvor på x og y aksen alle aliense bliver tegnet og hvornår de skal skifte mellem billederne i forhold til aliens stage
     draw(){
         if (this.alive) {
             console.log("alienStage:", this.alienStage);
@@ -131,8 +135,9 @@ class Alien{
         
    
     }
+    // koden under gør så at aliensne bevæger sig, hvor de hele tiden il bliver opdatere og det samme med deres lokalisation.
     update(){
-        if(this,this.alive) {
+        if(this.alive) {
             this.y +=0.2
         }
         if (this.locationStage == 16 ) {
@@ -157,7 +162,7 @@ class Alien{
 
 
 }
-
+// classen under er en nedarving fra classen aliens, hvor den ville have de samme paremter som aliensende og her bliver offspringsne start værdiger også pre difineret.
     class Offspring extends Alien {
         constructor(x, y) {
             super(x, y);//kalder på constructoren fra classen Alien
@@ -165,8 +170,11 @@ class Alien{
             this.offspringStage = 0;
             this.changeStage = 0;
             this.imageChangeDelay = 25;
+            this.alive = true;
         }
-    
+    /* selve draw metoden er det samme fra aliens, hvor der bare er blevet tilføjet et ekstra bileld, hvilket har haft den betydning at der skulle blive en ny else og if statements
+    i forhold til changeStage, så offspringse vil skifte i mellem de forskellige billeder.
+    */ 
         draw() {
             if (this.alive && this.offspring) {
                 console.log("offspringStage:", this.offspringStage);
@@ -174,13 +182,13 @@ class Alien{
                 if (this.changeStage < this.imageChangeDelay) {
                     if (this.offspringStage == 0) {
                         image(offspring_0, this.x, this.y, 70, 90);
-                    } else if (this.offspringStage == 1) {
+                    } else if (this.offspringStage == 1) { // her bil image nr 2 blive tegnet hvis changeStage er lig med 1 eller hvis image nr 3 blive tegnet.
                         image(offspring_1, this.x, this.y, 60, 90);
                     } else {
                         image(offspring_2, this.x, this.y, 50, 90);
                     }
-                    this.changeStage++;
-                } else {
+                    this.changeStage++; // her bliver this.changeStage plusset med 1 hele tiden 
+                } else { // der bliver lavet en nu else statement for at give changeStaten parameter for, hvornår den skal blive resat, så billederne hele tiden bliver skiftet.
                     this.offspringStage++;
                     if (this.offspringStage > 2) {
                         this.offspringStage = 0;
@@ -190,7 +198,7 @@ class Alien{
             }
         }
     
-    update() {
+    update() { // dette er den samme update som classen aliens har.
         if (this.alive) {
             this.y += 0.2;
         }
@@ -208,7 +216,7 @@ class Alien{
         }
     }
 }
-
+// parametrene for hvad space shipen skal gøre, når en knap er blevet trykket.
 function keyPressed() {
    if (keyCode === 32) {
         ship.fire()
@@ -216,7 +224,7 @@ function keyPressed() {
 
 }
 
-
+// I calssen ship bliver alle parametrene for space shipen lavet, så den kan blive kaldt i draw 
 class Ship{
     constructor(x,y){
         this.x = x;
@@ -224,7 +232,7 @@ class Ship{
         this.shipStage=0;
         this.changeStage = 0;
     }
-
+// her bliver metoden lavet til hvordan space shipen skal bevæge sig, når piltasterne er blevet trukket.
     move(){
         if (keyIsDown(LEFT_ARROW)){
             this.x-=5;
@@ -237,7 +245,7 @@ class Ship{
 
     }
     
-
+// I draw metoden bliver parametrerne for at få tegnet space ship sat, hvor det forgår på samme møde som i classen aliens og offsprings.
     draw(){
         this.move()
         if (this.shipStage == 0){
@@ -266,22 +274,16 @@ class Ship{
         this.changeStage++
         if (this.changeStage >5)
             this.changeStage = 0
-      
-        
-
-
-
-       
 
     }
-    fire(){
+    fire(){ // her bliver parameterne sat for, hvor bulletsne skal blive tenget med x oh y koordinaterne, de bliver skudt. 
         bullets[bulletnr]= new Bullet(this.x+32,this.y)
         bulletnr++;
       //  print(bulletnr)
       //  print(bullets)
     }
 }
-
+// I classen bullets bliver parameterne sat for, hvad der skal ske når bulletsne rammer aliens.
 class Bullet{
     constructor(x,y){
         this.x = x;
@@ -301,15 +303,15 @@ class Bullet{
         //Bullets skal flytte sig to op ad gangen. Ellers er den for langsom
         this.y-=2
     }
-
+// I kodene under bliver tjekket flere forskellige parameter for om at bulletsne har ramt en af alliensne.
     hasHit(aliens){
         for (let i=0;i<aliens.length;i++){
             if (aliens[i].alive && this.hasNotHit){
-                if (this.x > (aliens[i].x)-3 && this.x < (aliens[i].x)+27
-                    && this.y > (aliens[i].y)-3 && this.y < (aliens[i].y)+27){
+                if (this.x > (aliens[i].x)-3 && this.x < (aliens[i].x)+27 // I if statement tjekker den for bullets x position i forhold til aliens x position
+                    && this.y > (aliens[i].y)-3 && this.y < (aliens[i].y)+27){ // det samme gør den for y koordinaterne 
                    // print("true")
-                    aliens[i].alive = false;
-                    this.hasNotHit = false;
+                    aliens[i].alive = false; // hvis alle parameterne bliver mødt, så vil alien blive drøbt
+                    this.hasNotHit = false; // dette vil sætte hasNotHit til false, fordi at alien er blevet ramt og er derfor ikke i ilive.
                 }
             }
         }
@@ -321,7 +323,7 @@ class Bullet{
                 if (this.x > (offspring[i].x)-3 && this.x < (offspring[i].x)+27
                     && this.y > (offspring[i].y)-3 && this.y < (offspring[i].y)+27){
                    // print("true")
-                    offspring[i].offspring = false;
+                    offspring[i].alive = false;
                     this.hasNotHit = false;
                 }
             }
